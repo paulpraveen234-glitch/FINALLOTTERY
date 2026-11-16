@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andhra Pradesh Capital Region Development Authority (APCRDA)</title>
+    <!-- Tailwind CSS CDN for modern utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .results-table-scroll {
+            max-height: 480px;
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+
+        .results-table-scroll::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        .results-table-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .results-table-scroll::-webkit-scrollbar-thumb {
+            background: #767676;
+            border-radius: 6px;
+            border: 2px solid #f1f1f1;
+        }
+
+        .results-table-scroll::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .results-table {
+            width: 100%;
+            min-width: 1200px;
+            border-collapse: collapse;
+            background: #fff;
+            font-size: 12px;
+        }
+
+        .results-table th,
+        .results-table td {
+            border: 1px solid #d1d1d1;
+            padding: 7px 8px;
+        }
+
+        .results-table th {
+            background: #6b6b6b;
+            color: #fff;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .results-table td:first-child,
+        .results-table td:nth-child(6) {
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <div>
+        <!-- Header Banner -->
+        <header class="bg-white border-b border-gray-200">
+            <img src="./apcrda-header.png" alt="Andhra Pradesh Capital Region Development Authority and Amaravati" class="block h-auto w-full">
+        </header>
+
+        <!-- Navigation Bar -->
+        <nav style="background-color: #f37021;" class="shadow-md">
+            <div class="max-w-7xl mx-auto px-4">
+                <ul class="flex flex-wrap justify-center md:justify-start items-center text-white font-semibold text-sm md:text-base">
+                    <li><a href="#" class="px-5 py-3 block hover:bg-orange-700 transition">HOME</a></li>
+                    <li><a href="#" class="px-5 py-3 block hover:bg-orange-700 transition flex items-center gap-1">ABOUT CRDA <i class="fas fa-chevron-down text-xs"></i></a></li>
+                    <li><a href="#" class="px-5 py-3 block hover:bg-orange-700 transition">TENDERS</a></li>
+                    <li><a href="#" class="px-5 py-3 block hover:bg-orange-700 transition">CAREERS</a></li>
+                    <li><a href="#" class="px-5 py-3 block hover:bg-orange-700 transition flex items-center gap-1">MEDIA <i class="fas fa-chevron-down text-xs"></i></a></li>
+                    <li><a href="#" class="px-5 py-3 block hover:bg-orange-700 transition">CONTACT US</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Section -->
+        <main class="max-w-7xl mx-auto px-4 py-6">
+            
+            <!-- Top Action Row -->
+            <div class="flex justify-end mb-4">
+                <button onclick="history.back()" style="background-color: #f37021;" class="text-white px-5 py-1.5 rounded font-semibold text-sm shadow hover:bg-orange-700 transition">
+                    Back
+                </button>
+            </div>
+
+            <!-- Card Container -->
+            <div class="bg-white border border-gray-300 rounded shadow-sm p-6 relative">
+                
+                <!-- Tabs Header -->
+                <div class="flex flex-wrap gap-1 border-b border-gray-200 pb-4 mb-6">
+                    <button class="px-4 py-2 text-white font-semibold text-sm rounded shadow-sm" style="background-color: #d9822b;">Lottery Details</button>
+                    <button class="px-4 py-2 text-white font-semibold text-sm rounded shadow-sm opacity-80 hover:opacity-150 transition" style="background-color: #d9822b;">Provisional Certificates</button>
+                    <button class="px-4 py-2 text-white font-semibold text-sm rounded shadow-sm opacity-80 hover:opacity-100 transition" style="background-color: #d9822b;">Road Affected - Lottery</button>
+                    <button class="px-4 py-2 text-white font-semibold text-sm rounded shadow-sm opacity-80 hover:opacity-100 transition" style="background-color: #d9822b;">Gannavaram - Lottery</button>
+                    
+                    <div class="ml-auto">
+                        <a href="#" style="background-color: #d9822b;" class="text-white px-4 py-2 rounded text-sm font-semibold flex items-center gap-2 hover:opacity-90 shadow">
+                            <i class="fas fa-external-link-alt"></i> Development Permissions for APCRDA returnable plots
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Division-by-Division Form Box -->
+                <div class="border border-gray-200 bg-gray-50 p-6 rounded-md">
+                    <form id="lotteryForm" onsubmit="handleSubmit(event)">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Division 1: Mandal Selection -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-800 mb-2">
+                                    Mandal: <span class="text-red-600">*</span>
+                                </label>
+                                <select id="mandalSelect" onchange="updateVillages()" class="w-full border border-gray-300 bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <option value="">Select</option>
+                                    <option value="Mangalagiri">Mangalagiri</option>
+                                    <option value="Tadepalli">Tadepalli</option>
+                                    <option value="Thullur">Thullur</option>
+                                </select>
+                            </div>
+
+                            <!-- Division 2: Village Selection -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-800 mb-2">
+                                    Village: <span class="text-red-600">*</span>
+                                </label>
+                                <select id="villageSelect" class="w-full border border-gray-300 bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <option value="">Select</option>
+                                </select>
+                            </div>
+
+                            <!-- Division 3: Land Type Selection -->
+                            <div>
+                                <label class="block text-sm font-bold text-gray-800 mb-2">
+                                    Land Type: <span class="text-red-600">*</span>
+                                </label>
+                                <select id="landTypeSelect" class="w-full border border-gray-300 bg-white rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <option value="">--Select--</option>
+                                    <option value="Residential Dry">Residential Dry</option>
+                                    <option value="Residential Jareebu">Residential Jareebu</option>
+                                    <option value="Commercial Dry">Commercial Dry</option>
+                                    <option value="Commercial Jareebu">Commercial Jareebu</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button Division -->
+                        <div class="flex justify-center mt-8">
+                            <button type="submit" id="btnSubmit" onclick="handleSubmit(event)" style="background-color: #f37021;" class="text-white font-bold px-10 py-2 rounded shadow hover:bg-orange-700 transition uppercase tracking-wider text-sm cursor-pointer">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+
+                    <section id="resultsSection" class="hidden mt-5" aria-labelledby="resultsHeading" aria-live="polite">
+                        <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <h2 id="resultsHeading" class="text-base font-bold text-gray-800">Plot Allotted Final List</h2>
+                                <p id="resultsSummary" class="text-sm text-gray-600"></p>
+                            </div>
+                            <span class="rounded bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-900"></span>
+                        </div>
+                        <div class="results-table-scroll border border-gray-300">
+                            <table class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S.No</th>
+                                        <th scope="col">Option ID</th>
+                                        <th scope="col">Allotment ID</th>
+                                        <th scope="col">Farmer Name</th>
+                                        <th scope="col">Plot Category</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Allocated Plot Code (Township - Colony - Block - Plot Number - Plot sub Category)</th>
+                                        <th scope="col" class="whitespace-nowrap">Schedule <i class="fas fa-sort text-xs ml-1 opacity-75"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultsBody"></tbody>
+                            </table>
+                        </div>
+                        <p class="mt-2 text-xs text-gray-600"></p>
+                    </section>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 text-center py-4 text-xs text-gray-600 mt-12">
+        <p>© Andhra Pradesh Capital Region Development Authority (APCRDA). All Rights Reserved.</p>
+    </footer>
+
+    <!-- Division-by-Division Cascading Script -->
+    <script>
+        const villageData = {
+            "Mangalagiri": [
+                "Krishnayapalem",
+                "Kuragallu",
+                "Neerukonda",
+                "Nidamarru-1",
+                "Nidamarru-2",
+                "Nowlur-1",
+                "Nowlur-2"
+            ],
+            "Tadepalli": [
+                "Penumaka",
+                "Penumaka-Undavalli",
+                "Undavalli"
+            ],
+            "Thullur": [
+                "Abbarajupalem",
+                "Ananthavaram",
+                "Borupalem",
+                "Dondapadu",
+                "Inavolu",
+                "Kondamarajupalem",
+                "Lingayapalem",
+                "Malkapuram",
+                "Mandadam-1",
+                "Mandadam-2",
+                "Nekkallu",
+                "Nelapadu",
+                "Pitchakalapalem",
+                "Rayapudi-1",
+                "Rayapudi-2",
+                "Sekhamuru",
+                "Thullur-1",
+                "Thullur-2",
+                "Uddandarayunipalem",
+                "Velagapudi",
+                "Venkatapalem"
+            ]
+        };
+
+        const LotteryResults = [
+            ["SPUNIT1405005734-1H1", "SPUNIT1405005734", "TAMMINA VENKATA RAMESH BABU", "H1", "1", "4-308-3121-20-H1", "1st Lottery"],
+            ["SPUNIT1911030082-1L41", "SPUNIT1911030082", "Adusumilli Tripura Sundari Devi", "L41", "1", "5-324-3182-68-L41", "3rd Lottery"],
+            ["SPUNIT1911030082-1L57", "SPUNIT1911030082", "Adusumilli Tripura Sundari Devi", "L57", "1", "6-345-3251-17-L57", "3rd Lottery"],
+            ["SPUNIT1410011507-1H3", "SPUNIT1410011507", "CHANUMOLU SRINIVAS", "H3", "1", "4-308-3127-24-H3", "3rd Lottery"],
+            ["SPUNIT1410011507-1H4", "SPUNIT1410011507", "CHANUMOLU SRINIVAS", "H4", "1", "4-308-3120-33-H4", "3rd Lottery"],
+            ["SPUNIT1410011507-1I2", "SPUNIT1410011507", "CHANUMOLU SRINIVAS", "I2", "1", "5-324-3191-7-I2", "3rd Lottery"],
+            ["SPUNIT1410011507-1J3", "SPUNIT1410011507", "CHANUMOLU SRINIVAS", "J3", "1", "6-345-3243-2-J3", "3rd Lottery"],
+            ["SPUNIT1406028750-1B4", "SPUNIT1406028750", "Madala Samrajyam", "B4", "1", "5-310-3264-4-B4", "3rd Lottery"],
+            ["SPUNIT1911030077-1H5", "SPUNIT1911030077", "Tirumalasetty Venkateswara Rao", "H5", "1", "5-315-3142-24-H5", "3rd Lottery"],
+            ["JPUNIT1405060120-1I2", "JPUNIT1405060120", "AMRUTULURIPEDABABU,AMRUTALURIANNAMMA", "I2", "1", "6-346-3256-1-I2", ""],
+            ["JPUNIT1405060120-1K20", "JPUNIT1405060120", "AMRUTULURIPEDABABU,AMRUTALURIANNAMMA", "K20", "1", "6-345-3246-7-K20", ""],
+            ["SPUNIT1911030044-1J5", "SPUNIT1911030044", "Anumolu Onkara KrishnaPrasad, Anumolu Ram Prasad", "J5", "1", "6-345-3242-12-J5", ""],
+            ["SPUNIT1404059101-1H3", "SPUNIT1404059101", "Bandi Kumari", "H3", "1", "6-346-3256-33-H3", ""],
+            ["SPUNIT1404059095-1H3", "SPUNIT1404059095", "Bandi Raju", "H3", "1", "6-346-3256-32-H3", ""],
+            ["SPUNIT1404059106-1H2", "SPUNIT1404059106", "BIRUDUGADDA RANI", "H2", "1", "4-308-3123-58-H2", ""],
+            ["SPUNIT1404059106-1H2", "SPUNIT1404059106", "BIRUDUGADDA RANI", "H2", "1", "4-308-3123-58-H2", ""],
+            ["SPUNIT1404059111-1G1", "SPUNIT1404059111", "CHAKKA NAGESWARA RAO", "G1", "1", "4-308-3123-11-G1", ""],
+            ["SPUNIT1404059111-1G1", "SPUNIT1404059111", "CHAKKA NAGESWARA RAO", "G1", "1", "4-308-3123-11-G1", ""],
+            ["SPUNIT1404059111-1I1", "SPUNIT1404059111", "CHAKKA NAGESWARA RAO", "I1", "1", "4-308-3123-33-I1", ""],
+            ["SPUNIT1404059111-1I1", "SPUNIT1404059111", "CHAKKA NAGESWARA RAO", "I1", "1", "4-308-3123-33-I1", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-39-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-40-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-41-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-39-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-40-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-41-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-39-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-40-K6", ""],
+            ["JPUNIT1407060457-3K6", "JPUNIT1407060457", "CHALASANI SARADA, CHALASANI GUNARANJAN", "K6", "3", "6-346-3256-41-K6", ""],
+            ["SPUNIT1405060121-1K3", "SPUNIT1405060121", "CHANUMOLU HARIBABU", "K3", "1", "6-345-3238-17-K3", ""],
+            ["SPUNIT1405060121-1K4", "SPUNIT1405060121", "CHANUMOLU HARIBABU", "K4", "1", "6-345-3238-18-K4", ""],
+            ["SPUNIT1407060460-1J4", "SPUNIT1407060460", "CHANUMOLU NAGA SAI VISWANATH", "J4", "1", "6-345-3233-12-J4", ""],
+            ["SPUNIT1407060460-1K26", "SPUNIT1407060460", "CHANUMOLU NAGA SAI VISWANATH", "K26", "1", "6-345-3230-9-K26", ""],
+            ["SPUNIT1405060122-1I2", "SPUNIT1405060122", "CHANUMOLU RAVI BABU", "I2", "1", "6-345-3232-11-I2", ""],
+            ["SPUNIT1405060122-1I3", "SPUNIT1405060122", "CHANUMOLU RAVI BABU", "I3", "1", "6-345-3230-48-I3", ""],
+            ["SPUNIT1405060122-1K19", "SPUNIT1405060122", "CHANUMOLU RAVI BABU", "K19", "1", "6-345-3247-17-K19", ""],
+            ["SPUNIT1404059103-1H4", "SPUNIT1404059103", "Chilaka Nirmala", "H4", "1", "6-345-3240-17-H4", ""],
+            ["SPUNIT1410011507-1K9", "SPUNIT1410011507", "MALLIKANTHI NAGAMANI", "K9", "1", "6-345-3230-9-K9", ""],
+            ["SPUNIT14040591H4-1K11", "SPUNIT14040591K11", "KOTIKALA BABU", "K11", "1", "6-345-3230-9-K11", ""]
+            
+        ];
+
+        const demoLotteryResults = LotteryResults;
+
+        function updateVillages() {
+            const mandalSelect = document.getElementById('mandalSelect');
+            const villageSelect = document.getElementById('villageSelect');
+            const selectedMandal = mandalSelect.value;
+
+            // Clear existing options
+            villageSelect.innerHTML = '<option value="">Select</option>';
+
+            if (selectedMandal && villageData[selectedMandal]) {
+                villageData[selectedMandal].forEach(village => {
+                    const option = document.createElement('option');
+                    option.value = village;
+                    option.textContent = village;
+                    villageSelect.appendChild(option);
+                });
+            }
+        }
+
+        let currentTab = "Lottery Details";
+
+        function handleTabClick(tabName) {
+            currentTab = tabName;
+            const tabButtons = {
+                "Lottery Details": document.getElementById('tabLotteryDetails'),
+                "Provisional Certificates": document.getElementById('tabProvisionalCertificates'),
+                "Road Affected - Lottery": document.getElementById('tabRoadAffected'),
+                "Gannavaram - Lottery": document.getElementById('tabGannavaram')
+            };
+
+            for (const key in tabButtons) {
+                const btn = tabButtons[key];
+                if (btn) {
+                    if (key === tabName) {
+                        btn.classList.remove('opacity-80');
+                        btn.classList.add('opacity-100');
+                    } else {
+                        btn.classList.remove('opacity-100');
+                        btn.classList.add('opacity-80');
+                    }
+                }
+            }
+
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsHeading = document.getElementById('resultsHeading');
+            const resultsSummary = document.getElementById('resultsSummary');
+            const resultsCountBadge = document.getElementById('resultsCountBadge');
+            const resultsTableContainer = document.getElementById('resultsTableContainer');
+            const noRecordsMessage = document.getElementById('noRecordsMessage');
+            const demoDisclaimer = document.getElementById('demoDisclaimer');
+            const resultsBody = document.getElementById('resultsBody');
+
+            if (tabName === "Lottery Details") {
+                // If results were previously shown, re-evaluate with current form selection
+                if (resultsSection && !resultsSection.classList.contains('hidden') && resultsSection.style.display !== 'none') {
+                    handleSubmit();
+                }
+            } else {
+                // For remaining pages / tabs: display "No records found" in red colour
+                if (resultsHeading) {
+                    resultsHeading.textContent = tabName;
+                }
+                if (resultsSummary) {
+                    resultsSummary.textContent = "";
+                }
+                if (resultsCountBadge) {
+                    resultsCountBadge.style.display = 'none';
+                }
+                if (resultsTableContainer) {
+                    resultsTableContainer.classList.add('hidden');
+                    resultsTableContainer.style.display = 'none';
+                }
+                if (demoDisclaimer) {
+                    demoDisclaimer.style.display = 'none';
+                }
+                if (noRecordsMessage) {
+                    noRecordsMessage.classList.remove('hidden');
+                    noRecordsMessage.style.display = 'block';
+                    noRecordsMessage.textContent = 'No records found';
+                }
+                if (resultsBody) {
+                    resultsBody.innerHTML = '<tr><td colspan="8" style="color: red; text-align: center; font-weight: bold; font-size: 16px; padding: 24px;" class="text-center font-bold text-red-600">No records found</td></tr>';
+                }
+                if (resultsSection) {
+                    resultsSection.classList.remove('hidden');
+                    resultsSection.style.display = 'block';
+                    try {
+                        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } catch (e) {
+                        resultsSection.scrollIntoView();
+                    }
+                }
+            }
+        }
+
+        function handleSubmit(event) {
+            if (event) {
+                event.preventDefault();
+            }
+            const mandalSelect = document.getElementById('mandalSelect');
+            const villageSelect = document.getElementById('villageSelect');
+            const landTypeSelect = document.getElementById('landTypeSelect');
+            const resultsBody = document.getElementById('resultsBody');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsHeading = document.getElementById('resultsHeading');
+            const resultsSummary = document.getElementById('resultsSummary');
+            const resultsCountBadge = document.getElementById('resultsCountBadge');
+            const resultsTableContainer = document.getElementById('resultsTableContainer');
+            const noRecordsMessage = document.getElementById('noRecordsMessage');
+            const demoDisclaimer = document.getElementById('demoDisclaimer');
+
+            // If empty on initial submit, auto-fill default values so clicking Submit works instantly
+            if (!mandalSelect.value && !villageSelect.value && !landTypeSelect.value) {
+                mandalSelect.value = "Thullur";
+                updateVillages();
+                villageSelect.value = "Nelapadu";
+                landTypeSelect.value = "Residential Dry";
+            }
+
+            const mandalText = mandalSelect.value || "Thullur";
+            const villageText = villageSelect.value || "Nelapadu";
+            const landTypeText = landTypeSelect.value || "";
+
+            if (resultsHeading) {
+                resultsHeading.textContent = (currentTab === "Lottery Details") ? "Plot Allotted Final List" : currentTab;
+            }
+            if (resultsSummary) {
+                resultsSummary.textContent = (currentTab === "Lottery Details" && landTypeText) 
+                    ? `${mandalText} · ${villageText} · ${landTypeText}` 
+                    : "";
+            }
+
+            resultsBody.innerHTML = '';
+
+            const validLandTypes = ["Commercial Jareebu", "Residential Dry"];
+            const isMatch = (currentTab === "Lottery Details") && validLandTypes.includes(landTypeText);
+
+            if (isMatch) {
+                // LotteryResults display only in Commercial Jareebu, Residential Dry
+                const records = (typeof LotteryResults !== 'undefined') ? LotteryResults : demoLotteryResults;
+
+                records.forEach((result, index) => {
+                    const row = document.createElement('tr');
+                    const values = [String(index + 1), ...result];
+
+                    values.forEach(value => {
+                        const cell = document.createElement('td');
+                        cell.textContent = value;
+                        row.appendChild(cell);
+                    });
+
+                    resultsBody.appendChild(row);
+                });
+
+                if (resultsTableContainer) {
+                    resultsTableContainer.classList.remove('hidden');
+                    resultsTableContainer.style.display = 'block';
+                }
+                if (noRecordsMessage) {
+                    noRecordsMessage.classList.add('hidden');
+                    noRecordsMessage.style.display = 'none';
+                }
+                if (demoDisclaimer) {
+                    demoDisclaimer.style.display = 'block';
+                }
+                if (resultsCountBadge) {
+                    resultsCountBadge.textContent = `${records.length} Records`;
+                    resultsCountBadge.style.display = 'inline-block';
+                }
+            } else {
+                // Remaining pages / land types: "no records found" will display in red colour
+                const emptyRow = document.createElement('tr');
+                const emptyCell = document.createElement('td');
+                emptyCell.colSpan = 8;
+                emptyCell.style.color = 'red';
+                emptyCell.style.textAlign = 'center';
+                emptyCell.style.fontWeight = 'bold';
+                emptyCell.style.fontSize = '16px';
+                emptyCell.style.padding = '24px';
+                emptyCell.className = 'text-center font-bold text-red-600';
+                emptyCell.textContent = 'No records found';
+                emptyRow.appendChild(emptyCell);
+                resultsBody.appendChild(emptyRow);
+
+                if (resultsTableContainer) {
+                    resultsTableContainer.classList.add('hidden');
+                    resultsTableContainer.style.display = 'none';
+                }
+                if (noRecordsMessage) {
+                    noRecordsMessage.classList.remove('hidden');
+                    noRecordsMessage.style.display = 'block';
+                    noRecordsMessage.textContent = 'No records found';
+                }
+                if (demoDisclaimer) {
+                    demoDisclaimer.style.display = 'none';
+                }
+                if (resultsCountBadge) {
+                    resultsCountBadge.style.display = 'none';
+                }
+            }
+
+            if (resultsSection) {
+                resultsSection.classList.remove('hidden');
+                resultsSection.style.display = 'block';
+                try {
+                    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } catch (e) {
+                    resultsSection.scrollIntoView();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
